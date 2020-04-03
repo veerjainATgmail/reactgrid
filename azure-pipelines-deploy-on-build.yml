@@ -1,0 +1,42 @@
+trigger:
+- build
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages: 
+  - stage: deploy_on_build
+    displayName: 'Deploy on build'
+    jobs:
+      - job: deploy_on_build
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '10.x'
+          displayName: 'Install Node.js'
+        - checkout: self
+          persistCredentials: true
+        - script: 
+            git checkout $(BUILD_BRANCH_NAME)
+          displayName: 'Switch branch'
+        - script: 
+            git config --global user.email "$(GIT_USER_MAIL)" && git config --global user.name "$(GIT_USER_NAME)"
+          displayName: 'Set configuration'
+        - script:
+            git pull --tags origin build
+          displayName: 'Pull changes'
+        - script: 
+            npm install
+          displayName: 'Install dependencies'
+        - script: 
+            npm run pre-deploy
+          displayName: 'Run predeploy'
+        - script: 
+            git add -A
+          displayName: 'Add changes'
+        - script: 
+            git commit -m "upgrade version [ci skip]"
+          displayName: 'Commit updated package version'
+        - script: 
+            git push
+          displayName: 'Push upraded version'
