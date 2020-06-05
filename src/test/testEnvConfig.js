@@ -1,8 +1,8 @@
 // TODO is necessary to export this file (export only definition)
 export const config = {
-    pinToBody: false,
-    enableAdditionalContent: false,
-    flexRow: false,
+    pinToBody: true,
+    enableAdditionalContent: true,
+    flexRow: true,
 
     rgViewportHeight: 600,
     rgViewportWidth: 1150,
@@ -14,14 +14,14 @@ export const config = {
     minCellWidth: 40,
     fillHandleWidth: 18,
 
-    columns: 30,
-    rows: 150,
+    columns: 4,
+    rows: 4,
 
     lineWidth: 1,
 
-    stickyTop: 3,
+    stickyTop: 1,
     stickyBottom: 3,
-    stickyLeft: 2,
+    stickyLeft: 0,
     stickyRight: 2,
 
     firstRowType: 'text'

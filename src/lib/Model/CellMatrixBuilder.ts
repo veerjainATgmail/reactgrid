@@ -56,10 +56,11 @@ export class CellMatrixBuilder implements ICellMatrixBuilder {
     }
 
     fillSticky(): CellMatrixBuilder {
-        this.cellMatrix.ranges.stickyLeftRange = new Range(this.cellMatrix.rows,
-            this.cellMatrix.columns.slice(0, this.cellMatrix.props.stickyLeftColumns || 0));
-        this.cellMatrix.ranges.stickyTopRange = new Range(this.cellMatrix.rows.slice(0, this.cellMatrix.props.stickyTopRows || 0),
-            this.cellMatrix.columns);
+        const { stickyLeftColumns, stickyTopRows } = this.cellMatrix.props;
+        const lastColId = !stickyLeftColumns ? 0 : stickyLeftColumns >= this.cellMatrix.columns.length ? this.cellMatrix.columns.length : stickyLeftColumns;
+        const lastRowId = !stickyTopRows ? 0 : stickyTopRows >= this.cellMatrix.rows.length ? this.cellMatrix.rows.length : stickyTopRows;
+        this.cellMatrix.ranges.stickyLeftRange = new Range(this.cellMatrix.rows, this.cellMatrix.columns.slice(0, lastColId));
+        this.cellMatrix.ranges.stickyTopRange = new Range(this.cellMatrix.rows.slice(0, lastRowId), this.cellMatrix.columns);
         return this;
     }
     fillScrollableRange(): CellMatrixBuilder {

@@ -27,6 +27,19 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
 
     const visibleScrollableRange = renderMiddleRange && cellMatrix.scrollableRange.slice(state.visibleRange!, 'rows');
 
+    // CZY W CELL MATRIX WSZYSTKIE RANGE SA POPRAWNE
+    // CZY METODY shouldRender... SĄ POPRAWNE
+    // OKREŚNIENIE WYSOKOSCI I SZER DLA KAZDEGO PANE 
+
+    const paneLeftWidth = cellMatrix.width === cellMatrix.scrollableRange.width
+        ? cellMatrix.ranges.stickyLeftRange.columns.length === 0 ? 0 : cellMatrix.scrollableRange.width
+        : cellMatrix.width - cellMatrix.scrollableRange.width;
+
+    const paneTopHeight = cellMatrix.height === cellMatrix.scrollableRange.height
+        ? cellMatrix.ranges.stickyTopRange.rows.length === 0 ? 0 : cellMatrix.scrollableRange.height
+        : cellMatrix.scrollableRange.height;
+
+
     return (
         <>
             <Pane
@@ -34,8 +47,13 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
                 className={'rg-pane-center-middle'}
                 style={{
                     position: 'relative',
-                    width: cellMatrix.scrollableRange.width,
-                    height: cellMatrix.scrollableRange.height,
+                    width: cellMatrix.width !== cellMatrix.scrollableRange.width || cellMatrix.ranges.stickyLeftRange.columns.length === 0
+                        ? cellMatrix.scrollableRange.width
+                        : 0,
+                    // height: cellMatrix.scrollableRange.height,
+                    height: cellMatrix.height !== cellMatrix.scrollableRange.height || cellMatrix.ranges.stickyTopRange.rows.length === 0
+                        ? cellMatrix.scrollableRange.height
+                        : 0,
                     order: 3,
                 }}
             >
@@ -52,8 +70,8 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
                 renderChildren={renderMiddleRange && renderLeftSticky}
                 className={'rg-pane-left'}
                 style={{
-                    height: cellMatrix.scrollableRange.height,
-                    width: cellMatrix.width - cellMatrix.scrollableRange.width,
+                    height: paneTopHeight,
+                    width: paneLeftWidth,
                     order: 2,
                     ...(isBrowserFirefox() && { zIndex: 1 })
                 }}
@@ -71,8 +89,8 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
                 renderChildren={renderTopSticky && renderCenterRange}
                 className={'rg-pane-top'}
                 style={{
-                    width: cellMatrix.scrollableRange.width,
-                    height: cellMatrix.ranges.stickyTopRange.height,
+                    width: cellMatrix.ranges.stickyLeftRange.columns.length >= cellMatrix.columns.length ? 0 : cellMatrix.scrollableRange.width,
+                    height: cellMatrix.ranges.stickyTopRange.rows.length > cellMatrix.rows.length ? 0 : cellMatrix.ranges.stickyTopRange.height,
                     order: 1,
                     ...(isBrowserFirefox() && { zIndex: 1 })
                 }}
@@ -90,8 +108,10 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
                 renderChildren={renderTopSticky && renderLeftSticky}
                 className={'rg-pane-top rg-pane-left'}
                 style={{
-                    height: cellMatrix.ranges.stickyTopRange.height,
-                    width: cellMatrix.width - cellMatrix.scrollableRange.width,
+                    height: cellMatrix.height === cellMatrix.scrollableRange.height
+                        ? cellMatrix.ranges.stickyTopRange.rows.length === 0 ? 0 : cellMatrix.scrollableRange.height
+                        : cellMatrix.height - cellMatrix.scrollableRange.height,
+                    width: paneLeftWidth,
                     order: 0,
                     ...(isBrowserFirefox() && { zIndex: 2 })
                 }}

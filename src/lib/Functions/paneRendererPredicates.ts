@@ -9,12 +9,13 @@ export function shouldRenderLeftSticky(state: State): boolean {
 }
 
 export function shouldRenderCenterRange(state: State): boolean {
-    return !!(state.visibleRange && state.visibleRange.width > 0); // TODO rewrite without !!
+    return !!(state.visibleRange && state.visibleRange.width > 0
+        && state.cellMatrix.ranges.stickyLeftRange.columns.length < state.cellMatrix.columns.length); // TODO rewrite without !!
 }
 
 export function shouldRenderMiddleRange(state: State): boolean {
-
     return !!(state.cellMatrix.scrollableRange.height > 0 && state.cellMatrix.scrollableRange.first.column &&
         state.cellMatrix.scrollableRange.first.row && state.cellMatrix.scrollableRange.last.row &&
-        state.visibleRange && state.visibleRange.height > 0); // TODO rewrite without !!
+        state.visibleRange && state.visibleRange.height > 0 &&
+        state.cellMatrix.ranges.stickyTopRange.rows.length < state.cellMatrix.rows.length); // TODO rewrite without !!
 }
