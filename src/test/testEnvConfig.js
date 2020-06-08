@@ -14,15 +14,15 @@ export const config = {
     minCellWidth: 40,
     fillHandleWidth: 18,
 
-    columns: 4,
-    rows: 4,
+    columns: 3,
+    rows: 3,
 
     lineWidth: 1,
 
-    stickyTop: 1,
-    stickyBottom: 3,
+    stickyTop: 0,
     stickyLeft: 0,
-    stickyRight: 2,
+    stickyBottom: 0,
+    stickyRight: 0,
 
     firstRowType: 'text'
 }

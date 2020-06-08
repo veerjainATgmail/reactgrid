@@ -12,9 +12,8 @@ export class Range {
     constructor(public readonly rows: GridRow[], public readonly columns: GridColumn[]) {
         this.first = { row: this.rows[0], column: this.columns[0] };
         this.last = { row: this.rows[this.rows.length - 1], column: this.columns[this.columns.length - 1] };
-        // TODO optimize
-        this.height = this.rows.map(c => c.height).reduce((a, b) => a + b, 0);
-        this.width = this.columns.map(c => c.width).reduce((a, b) => a + b, 0);
+        this.height = this.rows.reduce((a, b) => a + b.height, 0);
+        this.width = this.columns.reduce((a, b) => a + b.width, 0);
     }
 
     contains(location: Location): boolean {

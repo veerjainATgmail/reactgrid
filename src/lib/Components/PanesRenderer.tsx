@@ -6,6 +6,7 @@ import { CellRendererProps, } from './CellRenderer';
 import {
     shouldRenderTopSticky, shouldRenderMiddleRange, shouldRenderLeftSticky, shouldRenderCenterRange
 } from '../Functions/paneRendererPredicates';
+import { Range } from './../Model'
 
 
 export interface PanesProps<TState extends State = State> {
@@ -25,9 +26,26 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
         return null;
     }
 
-    const visibleScrollableRange = renderMiddleRange && cellMatrix.scrollableRange.slice(state.visibleRange!, 'rows');
+    // console.log(state.visibleRange, cellMatrix.scrollableRange);
 
-    // CZY W CELL MATRIX WSZYSTKIE RANGE SA POPRAWNE
+    let mergedHorizontal
+    //  = cellMatrix.getRange(cellMatrix.scrollableRange.first || cellMatrix.ranges.stickyLeftRange.first, cellMatrix.scrollableRange.last || cellMatrix.ranges.stickyLeftRange.last);
+
+    // console.log(cellMatrix.scrollableRange.first.column);
+    if (!cellMatrix.scrollableRange.columns.length && state.visibleRange?.columns) {
+        // console.log(state.visibleRange, cellMatrix.scrollableRange);
+        mergedHorizontal = cellMatrix.getRange(cellMatrix.ranges.stickyLeftRange.first, cellMatrix.ranges.stickyLeftRange.last).slice(state.visibleRange!, 'rows')
+        console.log(mergedHorizontal, 'kwik');
+
+    } else {
+        mergedHorizontal = renderMiddleRange && cellMatrix.scrollableRange.slice(state.visibleRange!, 'rows');
+    }
+
+    // console.log(mergedHorizontal);
+
+    const visibleScrollableRange = renderMiddleRange && mergedHorizontal;
+
+    // >>> CZY W CELL MATRIX WSZYSTKIE RANGE SA POPRAWNE
     // CZY METODY shouldRender... SĄ POPRAWNE
     // OKREŚNIENIE WYSOKOSCI I SZER DLA KAZDEGO PANE 
 
@@ -35,10 +53,12 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
         ? cellMatrix.ranges.stickyLeftRange.columns.length === 0 ? 0 : cellMatrix.scrollableRange.width
         : cellMatrix.width - cellMatrix.scrollableRange.width;
 
-    const paneTopHeight = cellMatrix.height === cellMatrix.scrollableRange.height
-        ? cellMatrix.ranges.stickyTopRange.rows.length === 0 ? 0 : cellMatrix.scrollableRange.height
-        : cellMatrix.scrollableRange.height;
+    console.log((mergedHorizontal as Range));
 
+
+    const paneTopHeight = cellMatrix.height === cellMatrix.scrollableRange.height
+        ? (mergedHorizontal as Range).rows.length === 0 ? 0 : (mergedHorizontal as Range).height
+        : cellMatrix.scrollableRange.height;
 
     return (
         <>
@@ -89,7 +109,7 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
                 renderChildren={renderTopSticky && renderCenterRange}
                 className={'rg-pane-top'}
                 style={{
-                    width: cellMatrix.ranges.stickyLeftRange.columns.length >= cellMatrix.columns.length ? 0 : cellMatrix.scrollableRange.width,
+                    width: cellMatrix.ranges.stickyLeftRange.columns.length > cellMatrix.columns.length ? 0 : cellMatrix.scrollableRange.width,
                     height: cellMatrix.ranges.stickyTopRange.rows.length > cellMatrix.rows.length ? 0 : cellMatrix.ranges.stickyTopRange.height,
                     order: 1,
                     ...(isBrowserFirefox() && { zIndex: 1 })

@@ -14,8 +14,6 @@ export function shouldRenderCenterRange(state: State): boolean {
 }
 
 export function shouldRenderMiddleRange(state: State): boolean {
-    return !!(state.cellMatrix.scrollableRange.height > 0 && state.cellMatrix.scrollableRange.first.column &&
-        state.cellMatrix.scrollableRange.first.row && state.cellMatrix.scrollableRange.last.row &&
-        state.visibleRange && state.visibleRange.height > 0 &&
-        state.cellMatrix.ranges.stickyTopRange.rows.length < state.cellMatrix.rows.length); // TODO rewrite without !!
+    return !!(state.visibleRange && state.visibleRange.height > 0
+        && state.cellMatrix.ranges.stickyTopRange.rows.length < state.cellMatrix.rows.length); // TODO rewrite without !!
 }
