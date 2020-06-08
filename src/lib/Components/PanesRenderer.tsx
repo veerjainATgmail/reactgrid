@@ -25,18 +25,39 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
         return null;
     }
 
-    const visibleScrollableRange = renderMiddleRange && cellMatrix.scrollableRange.slice(state.visibleRange!, 'rows');
+    let visibleScrollableRange;
+
+    if (renderMiddleRange && !cellMatrix.scrollableRange.columns.length) {
+        // console.log(cellMatrix.scrollableRange.columns);
+        let vR = state.visibleRange;
+        if (vR && !vR?.columns.length) {
+            vR = cellMatrix.getRange(
+                cellMatrix.getLocationById(vR.first.row.idx || 0, cellMatrix.ranges.stickyLeftRange.first.column.idx || 0),
+                cellMatrix.getLocationById(vR.last.row.idx || 0, cellMatrix.ranges.stickyLeftRange.last.column.idx || 0)
+            );
+        }
+        visibleScrollableRange = cellMatrix.getRange(cellMatrix.ranges.stickyLeftRange.first, cellMatrix.ranges.stickyLeftRange.last).slice(vR!, 'rows');
+        console.log('ds', visibleScrollableRange, state.visibleRange, vR);
+
+        //     console.log(cellMatrix.scrollableRange);
+
+    } else {
+        visibleScrollableRange = renderMiddleRange && cellMatrix.scrollableRange.slice(state.visibleRange!, 'rows');
+    }
+
+    // console.log(cellMatrix.scrollableRange);
 
     // >> CZY W CELL MATRIX WSZYSTKIE RANGE SA POPRAWNE
     // CZY METODY shouldRender... SĄ POPRAWNE
     // OKREŚNIENIE WYSOKOSCI I SZER DLA KAZDEGO PANE 
+    console.log(cellMatrix.ranges.stickyTopRange);
 
     const paneLeftWidth = cellMatrix.width === cellMatrix.scrollableRange.width
         ? cellMatrix.ranges.stickyLeftRange.columns.length === 0 ? 0 : cellMatrix.scrollableRange.width
         : cellMatrix.width - cellMatrix.scrollableRange.width;
 
     const paneTopHeight = cellMatrix.height === cellMatrix.scrollableRange.height
-        ? cellMatrix.ranges.stickyTopRange.rows.length === 0 ? 0 : cellMatrix.scrollableRange.height
+        ? cellMatrix.scrollableRange.height
         : cellMatrix.scrollableRange.height;
 
 
@@ -50,7 +71,6 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
                     width: cellMatrix.width !== cellMatrix.scrollableRange.width || cellMatrix.ranges.stickyLeftRange.columns.length === 0
                         ? cellMatrix.scrollableRange.width
                         : 0,
-                    // height: cellMatrix.scrollableRange.height,
                     height: cellMatrix.height !== cellMatrix.scrollableRange.height || cellMatrix.ranges.stickyTopRange.rows.length === 0
                         ? cellMatrix.scrollableRange.height
                         : 0,
