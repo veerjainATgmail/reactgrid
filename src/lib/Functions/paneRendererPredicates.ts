@@ -1,4 +1,4 @@
-import { State } from '../Model';
+import { State, Range } from '../Model';
 
 export function shouldRenderTopSticky(state: State): boolean {
     return state.cellMatrix.ranges.stickyTopRange.height > 0;

@@ -85,12 +85,18 @@ export class CellMatrixBuilder implements ICellMatrixBuilder {
     getScrollableRange = (): Range => {
         const { stickyTopRows } = this.cellMatrix.props;
         const { stickyLeftColumns } = this.cellMatrix.props;
-        const firstScrollableRowId = !stickyTopRows
+        let firstScrollableRowId = !stickyTopRows
             ? 0
-            : stickyTopRows >= this.cellMatrix.rows.length ? this.cellMatrix.columns.length : Math.max(0, stickyTopRows);
-        const firstScrollableColumnId = !stickyLeftColumns
+            : stickyTopRows >= this.cellMatrix.rows.length ? this.cellMatrix.rows.length : Math.max(0, stickyTopRows);
+        let firstScrollableColumnId = !stickyLeftColumns
             ? 0
             : stickyLeftColumns >= this.cellMatrix.columns.length ? this.cellMatrix.columns.length : Math.max(0, stickyLeftColumns);
+        // if (firstScrollableColumnId === this.cellMatrix.columns.length) {
+        //     firstScrollableRowId = this.cellMatrix.rows.length;
+        // }
+        // if (firstScrollableRowId === this.cellMatrix.rows.length) {
+        //     firstScrollableColumnId = this.cellMatrix.columns.length;
+        // }
         return new Range(this.cellMatrix.rows.slice(firstScrollableRowId), this.cellMatrix.columns.slice(firstScrollableColumnId));
     }
 

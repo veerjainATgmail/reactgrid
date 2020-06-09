@@ -1,6 +1,6 @@
 // TODO is necessary to export this file (export only definition)
 export const config = {
-    pinToBody: true,
+    pinToBody: false,
     enableAdditionalContent: true,
     flexRow: true,
 
@@ -19,8 +19,8 @@ export const config = {
 
     lineWidth: 1,
 
-    stickyTop: 0,
-    stickyLeft: 0,
+    stickyTop: 3,
+    stickyLeft: 2,
     stickyBottom: 0,
     stickyRight: 0,
 
