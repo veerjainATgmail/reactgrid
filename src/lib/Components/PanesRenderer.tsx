@@ -118,7 +118,7 @@ export const PanesRenderer: React.FunctionComponent<PanesProps> = props => {
                 className={'rg-pane-top rg-pane-left'}
                 style={{
                     height: renderTopSticky && renderLeftSticky ? scrollableRange.height - cellMatrix.ranges.stickyTopRange.height : visibleRange?.height,
-                    width: cellMatrix.ranges.stickyLeftRange.width,
+                    width: renderTopSticky && renderLeftSticky ? cellMatrix.ranges.stickyLeftRange.width : 0,
                     order: 0,
                     ...(isBrowserFirefox() && { zIndex: 2 })
                 }}

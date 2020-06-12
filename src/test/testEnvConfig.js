@@ -4,7 +4,7 @@ export const config = {
     enableAdditionalContent: true,
     flexRow: false,
 
-    rgViewportHeight: 1200,
+    rgViewportHeight: 800,
     rgViewportWidth: 1150,
     margin: '0',
     enableRangeSelection: true,
