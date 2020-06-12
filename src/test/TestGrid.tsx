@@ -198,54 +198,67 @@ export const TestGrid: React.FunctionComponent<TestGridProps> = (props) => {
                     flexDirection: 'row'
                 }),
             }}>
-                {props.config.enableAdditionalContent &&
-                    <>
-                        <Logo isPro={props.isPro} />
-                        <Logo isPro={props.isPro} />
-                        <Logo isPro={props.isPro} />
-                    </>
-                }
+
+                <div style={{ width: '100%', height: '50px', backgroundColor: '#eee' }}>
+                    left = 0<br />
+                    top =  0
+                </div>
                 <Component
                     rows={state.rows}
                     columns={state.columns}
-                    initialFocusLocation={{ columnId: 'col-2', rowId: 'row-2' }}
-                    // focusLocation={{ columnId: 'col-1', rowId: 'row-3' }}
-                    onCellsChanged={handleChanges}
-                    onColumnResized={handleColumnResize}
-                    customCellTemplates={{ 'flag': new FlagCellTemplate() }}
-                    highlights={[{ columnId: 'col-1', rowId: 'row-1', borderColor: '#00ff00' }]}
-                    stickyLeftColumns={props.enableSticky ? props.config.stickyLeft : undefined}
-                    stickyRightColumns={props.enableSticky ? props.config.stickyRight : undefined}
-                    stickyTopRows={props.enableSticky ? props.config.stickyTop : undefined}
-                    stickyBottomRows={props.enableSticky ? props.config.stickyBottom : undefined}
-                    canReorderColumns={handleCanReorderColumns}
-                    canReorderRows={handleCanReorderRows}
-                    onColumnsReordered={handleColumnsReorder}
-                    onRowsReordered={handleRowsReorder}
-                    onContextMenu={handleContextMenu}
-                    onFocusLocationChanged={handleFocusLocationChanged}
-                    onFocusLocationChanging={handleFocusLocationChanging}
-                    enableRowSelection={props.enableColumnAndRowSelection || false}
-                    enableColumnSelection={props.enableColumnAndRowSelection || false}
-                    enableRangeSelection={props.config.enableRangeSelection}
-                    enableFillHandle={props.config.enableFillHandle}
+                    stickyLeftColumns={0}
+                    stickyTopRows={0}
                 />
-                {props.config.enableAdditionalContent &&
-                    <>
-                        <h1 style={{ width: 3000 }}>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                        <h1>TEXT</h1> Test WITH IT
-                    </>
-                }
+                <div style={{ width: '100%', height: '50px', backgroundColor: '#eee' }}>
+                    left = {props.config.columns} <br />
+                    top =  0
+                </div>
+                <Component
+                    rows={state.rows}
+                    columns={state.columns}
+                    stickyLeftColumns={props.config.columns}
+                    stickyTopRows={0}
+                />
+                <div style={{ width: '100%', height: '50px', backgroundColor: '#eee' }}>
+                    left = {props.config.columns} <br />
+                    top =  1
+                </div>
+                <Component
+                    rows={state.rows}
+                    columns={state.columns}
+                    stickyLeftColumns={props.config.columns}
+                    stickyTopRows={1}
+                />
+                <div style={{ width: '100%', height: '50px', backgroundColor: '#eee' }}>
+                    left = {props.config.columns} <br />
+                    top =  {props.config.rows}
+                </div>
+                <Component
+                    rows={state.rows}
+                    columns={state.columns}
+                    stickyLeftColumns={props.config.columns}
+                    stickyTopRows={props.config.rows}
+                />
+                <div style={{ width: '100%', height: '50px', backgroundColor: '#eee' }}>
+                    left = {1} <br />
+                    top =  {props.config.rows}
+                </div>
+                <Component
+                    rows={state.rows}
+                    columns={state.columns}
+                    stickyLeftColumns={1}
+                    stickyTopRows={props.config.rows}
+                />
+                <div style={{ width: '100%', height: '50px', backgroundColor: '#eee' }}>
+                    left = {0} <br />
+                    top =  {props.config.rows}
+                </div>
+                <Component
+                    rows={state.rows}
+                    columns={state.columns}
+                    stickyLeftColumns={0}
+                    stickyTopRows={props.config.rows}
+                />
             </div>
             <input type='text' data-cy="outer-input" />
             <Logo isPro={props.isPro} />

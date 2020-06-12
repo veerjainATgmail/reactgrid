@@ -2,9 +2,9 @@
 export const config = {
     pinToBody: false,
     enableAdditionalContent: true,
-    flexRow: true,
+    flexRow: false,
 
-    rgViewportHeight: 600,
+    rgViewportHeight: 1200,
     rgViewportWidth: 1150,
     margin: '0',
     enableRangeSelection: true,
